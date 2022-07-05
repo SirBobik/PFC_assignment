@@ -27,6 +27,7 @@
  * To stop the server press ***Ctrl + C***
  * To run tests type ***npm test***
    * this will run all test cases from the *test.js* file
+ * To build Docker image run ***docker build . -t [user_name]/pfc_assignment***
 
 ## Possible improvements
  This is just a simple quick implementation, which has some future potential for improvements. Both with project structure and implementation.
