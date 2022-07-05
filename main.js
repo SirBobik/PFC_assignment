@@ -1,16 +1,24 @@
+/*************************************************
+  This is the main file for the application
+  Includes endpoint implementation
+  Calls for the checks, which are implemented
+  in a separate module
+*************************************************/
+
 const express = require('express');
 const ibanChecker = require('./iban-checker.js');
 
 const app = express();
 
+const API_PATH = '/api/check_iban/:iban'
 const BAD_REQUEST = 400;
 const SUCCESS = 200;
 
 const server = app.listen(3000, () => {
-    console.log("Application is running on port 3000");
+    console.log('Application is running on port 3000');
 });
 
-app.get("/api/check_iban/:iban", async (req, res, next) => {
+app.get(API_PATH, async (req, res, next) => {
     let iban = req.params.iban;
     let body = {};
     body['original'] = iban;

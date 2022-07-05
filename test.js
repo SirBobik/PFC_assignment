@@ -59,7 +59,7 @@ test("Simple successful case", async () => {
         });
 });
 
-test("Successful case for low case characters used", async () => {
+test("Successful case when low case characters used", async () => {
     await supertest(server).get("/api/check_iban/MU43bomm0101123456789101000MUR")
         .expect(200)
         .then((response) => {

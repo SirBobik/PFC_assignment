@@ -1,3 +1,23 @@
+/*************************************************
+   This module provides all service functions
+   required to run IBAN checks
+   Exports:
+     - checkIBAN(iban)
+     this function works as an aggregator for
+     all checks and composes error message if
+     checks fail
+   Internal functions:
+     - checkLength(iban)
+     runs the length check on the input
+     - checkForCountryCode(country)
+     runs the specific check for first 2 chars
+     being symbols. Does not validate country
+     codes, only that a code is present
+     - checkCountryFormat(country, bban)
+     runs different regexp matching the format
+     dependable on country code
+ *************************************************/
+
 const MAX_IBAN_LENGTH = 34;
 const MIN_IBAN_LENGTH = 16;
 
@@ -15,7 +35,6 @@ function checkForCountryCode (country){
 }
 
 function checkCountryFormat (country, bban){
-    let result = {};
     let status = true;
     let correctCountry = true;
 
