@@ -42,3 +42,27 @@ test("Country code isn't valid", async () => {
         });
 });
 
+test("Format check fails", async () => {
+    await supertest(server).get("/api/check_iban/BR15000000000000-10932840814P2")
+        .expect(200)
+        .then((response) => {
+            expect(response.body.result).toBe('IBAN NOT OK');
+            expect(response.body.reason).toBe('Format NOT OK or country code does not exist');
+        });
+});
+
+test("Simple successful case", async () => {
+    await supertest(server).get("/api/check_iban/BR1500000000000010932840814P2")
+        .expect(200)
+        .then((response) => {
+            expect(response.body.result).toBe('IBAN OK');
+        });
+});
+
+test("Successful case for low case characters used", async () => {
+    await supertest(server).get("/api/check_iban/MU43bomm0101123456789101000MUR")
+        .expect(200)
+        .then((response) => {
+            expect(response.body.result).toBe('IBAN OK');
+        });
+});
