@@ -1,4 +1,5 @@
 const express = require('express');
+const ibanChecker = require('./iban-checker.js');
 
 const app = express();
 
@@ -9,9 +10,28 @@ const server = app.listen(3000, () => {
     console.log("Application is running on port 3000");
 });
 
+app.get("/api/check_iban/:iban", async (req, res, next) => {
+    let iban = req.params.iban;
+    let body = {};
+    body['original'] = iban;
+
+    let result = ibanChecker.checkIBAN(iban);
+
+    if (result.status === 0) {
+        body['result'] = 'IBAN OK';
+    } else {
+        body['result'] = 'IBAN NOT OK';
+        body['reason'] = result.reason;
+    }
+    return res
+        .status(SUCCESS)
+        .json(body);
+});
+
 app.get('*', (req, res, next) => {
     let body = {};
-    body['reason']  = 'Invalid request format.';
+    body['result']  = 'BAD REQUEST';
+    body['reason']  = 'Invalid request format';
     body['format']  = 'localhost:3000/api/check_iban/:iban';
     body['example'] = 'localhost:3000/api/check_iban/SE8730000000010123456789';
     return res
