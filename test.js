@@ -47,7 +47,16 @@ test("Format check fails", async () => {
         .expect(200)
         .then((response) => {
             expect(response.body.result).toBe('IBAN NOT OK');
-            expect(response.body.reason).toBe('Format NOT OK or country code does not exist');
+            expect(response.body.reason).toBe('IBAN format is NOT OK');
+        });
+});
+
+test("IBAN doesn't seem to be correct", async () => {
+    await supertest(server).get("/api/check_iban/SE8730000000010123456789")
+        .expect(200)
+        .then((response) => {
+            expect(response.body.result).toBe('IBAN NOT OK');
+            expect(response.body.reason).toBe('IBAN mod is 60');
         });
 });
 
